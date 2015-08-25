@@ -18,9 +18,15 @@ dat  <- group_by(NEI, year) %>%
         summarise(total.Emissions = sum(Emissions))
 
 #5. Plot
+#Pick one of the following plots (I prefer #5.1)
+##5.1
+with(dat, barplot(names.arg = year,height = total.Emissions, 
+               ylab="Total Emissions (tons)"))
+title(main=expression('PM'[2.5]*' emissions in the United States'))
+###5.2
 with(dat, plot(year,total.Emissions, 
                ylab="Total Emissions (tons)"))
-title(main="Pm2.5 emissions in the United States")
+title(main=expression('PM'[2.5]*' emissions in the United States'))
 abline(lm(dat$total.Emissions ~ dat$year), col=2)
 
 #6.Save the plot to a PNG file
