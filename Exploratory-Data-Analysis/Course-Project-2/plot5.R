@@ -14,7 +14,7 @@ NEI <- readRDS("summarySCC_PM25.rds")
 SCC <- readRDS("Source_Classification_Code.rds")
 
 #4. Get the raw indices from the SCC file that are Vehicles-based
-ind  <- grep("Vehicles", SCC$EI.Sector)
+ind  <- grep("Coal", SCC$EI.Sector, ignore.case = TRUE)
 
 #5. Get the SCC from those indices
 target  <- SCC[ind,1]
