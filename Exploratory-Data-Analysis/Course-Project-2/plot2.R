@@ -19,9 +19,9 @@ baltimore  <- group_by(NEI, year) %>%
         summarise(total.Emissions = sum(Emissions))
 
 #5. Plot
-with(baltimore, plot(year,total.Emissions, ylab="Total Emissions (tons)"))
-title(main="Pm2.5 emissions in Baltimore, MD")
-abline(lm(baltimore$total.Emissions ~ baltimore$year), col=2)
+with(baltimore, barplot(names.arg = year,height = total.Emissions,
+                        ylab="Total Emissions (tons)"))
+title(main=expression('PM'[2.5]*' emissions in Baltimore, MD'))
 
 #6. Save the plot to a PNG file
 dev.copy(png, file="plot2.png", width = 480, height=480)
