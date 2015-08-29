@@ -25,8 +25,16 @@ vehicles.baltimore  <- filter(NEI, SCC %in% target,fips == "24510") %>%
         summarise(total.Emissions = sum(Emissions))
 
 #7. Plot
+#Pick one of the following plots:
+#7.1
+with(vehicles.baltimore, barplot(names.arg = year,height = total.Emissions, 
+                              ylab="Emissions (tons)", ylim=c(0,400)))
+title(main="Pm2.5 emissions from motor vehicle sources in Baltimore")
+
+#7.2
 with(vehicles.baltimore, plot(year,total.Emissions, 
                 ylab="Emissions (tons)", ylim=c(50,350 )))
+with(vehicles.baltimore, lines(year,total.Emissions)
 title(main="Pm2.5 emissions from motor vehicle sources in Baltimore")
 abline(lm(vehicles.baltimore$total.Emissions ~ vehicles.baltimore$year), col=2)
 
