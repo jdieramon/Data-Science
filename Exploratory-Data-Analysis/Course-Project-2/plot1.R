@@ -24,8 +24,7 @@ with(dat, barplot(names.arg = year,height = total.Emissions,
                ylab="Total Emissions (tons)"))
 title(main=expression('PM'[2.5]*' emissions in the United States'))
 ###5.2
-with(dat, plot(year,total.Emissions, 
-               ylab="Total Emissions (tons)"))
+with(dat, plot(year,total.Emissions, ylab="Total Emissions (tons)"))
 title(main=expression('PM'[2.5]*' emissions in the United States'))
 abline(lm(dat$total.Emissions ~ dat$year), col=2)
 
