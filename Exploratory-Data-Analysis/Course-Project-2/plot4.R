@@ -25,8 +25,17 @@ coal  <- filter(NEI, SCC %in% target) %>%
         summarise(total.Emissions = sum(Emissions))
 
 #7. Plot
+#Pick one of the following plots:
+#7.1
+with(coal, barplot(names.arg = year,height = total.Emissions,
+                   ylab="Emissions (tons)"))
+title(main="Pm2.5 total emissions from coal combustion-related sources")
+abline(lm(coal$total.Emissions ~ coal$year), col=2)
+
+#7.2
 with(coal, plot(year,total.Emissions, ylim=c(300000,600000), 
                 ylab="Emissions (tons)"))
+with(coal, lines(year, total.Emissions ))
 title(main="Pm2.5 total emissions from coal combustion-related sources")
 abline(lm(coal$total.Emissions ~ coal$year), col=2)
 
