@@ -1,4 +1,4 @@
-forked from [jtleek/datasharing]https://github.com/jtleek/datasharing
+forked from https://github.com/jtleek/datasharing
 
 How to share data with a statistician
 ===========
