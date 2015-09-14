@@ -1,4 +1,4 @@
-ibrary(dplyr)
+library(dplyr)
 library(ggplot2)
 
 #1. Set the working directory
