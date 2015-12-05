@@ -22,7 +22,7 @@ setwd("./data")
   
 ### Loading and preprocessing the data
 Download zip file.
-```{r download, cache=TRUE}
+```{r download, cache=TRUE, eval=FALSE}
 fileUrl  <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
 download.file(fileUrl,destfile="./activity.zip", method="curl")
 ```
