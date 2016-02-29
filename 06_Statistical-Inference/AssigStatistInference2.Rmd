@@ -1,0 +1,139 @@
+---
+title: "ToothGrowth Project Report"
+author: "Jose V. Die"
+date: "February 27, 2016"
+output: html_document
+---
+***  
+#### Overview
+In this project we will analyze the ToothGrowth data in the R datasets package. We want to perform some basic exploratory data analysis in order to extract some basic features from the data. This will allow us to set some hypothesis that will be further tested.  
+
+```{r echo=FALSE}
+data(ToothGrowth)
+dat <- ToothGrowth
+```
+
+1. We will take a quick look at the data : head, tail, summary. (See supporting Appendix material for code)  
+  
+2. EDA. We will plot several plots: (1) Length of teeth vs. Supplement type (orange juice or ascorbic acid); (2) Length of teeth vs. Dose levels of Vitamin C; (3) Length of teeth vs. Dose levels of Vitamin C over Supp. type.  
+
+```{r, echo=FALSE, width=5, fig.height=4}
+boxplot(dat$len~dat$supp, col=c("grey60", "grey90"), ylab="Length of teeth", 
+        xlab="Supplement type", cex.lab = 0.8, cex.axis =0.7)
+  
+boxplot(dat$len~dat$dose, col=c("grey60", "grey90", "lightblue"), ylab="Length of teeth", xlab="Dose levels of Vitamin C",cex.lab = 0.8, cex.axis =0.7)
+  
+boxplot(dat$len~dat$dose*dat$supp, ylab="Length of teeth", 
+        xlab="Dose levels of Vitamin C over Supp. type", ylab="Length of teeth", 
+        col=rep(c("lightcyan2", "honeydew1","papayawhip"),2), las=1, cex.lab=0.8, cex.axis=0.7)
+```
+  
+  From the plots, we will test 3 hypothesis related to:  
+* (1) Vitamin C supplement type,  
+* (2) dose levels and,  
+* (3)   interaction between dose levels, and type of Vitamin C  
+  
+***  
+
+**Hypothesis 1:** We will test the hypothesis that *there is not difference between the type of supplement of Vitamin C*. This is, mean of lengths of teeth from guinea pigs treated with orange juice is not different than the mean from guinea pigs treated with ascorbic acid. **For the whole Assignment, we will assume equal variance between groups.**  
+```{r}
+OJ <- dat[which(dat$supp=="OJ"),1]
+VC <- dat[which(dat$supp=="VC"),1]
+statistic <- t.test(OJ,VC, paired = FALSE, var.equal = TRUE )
+```
+The 95% Confidence Intervals, `r statistic$conf.int` contain 0. Also, the *P*-value is `r statistic$p.value`. So, we cannot reject the null hypothesis (difference in means is equal to 0).  
+  
+**Hypothesis 2:** There is not difference in the dose levels of Vitamin C. We will set the 3 subsets based on the dose levels: low, medium and high.    
+
+```{r}
+low <- dat[which(dat$dose==0.5),1]
+medium <- dat[which(dat$dose==1),1]
+high <- dat[which(dat$dose==2),1]
+```
+  
+2.1. H0: There is no difference in teeth length beteen low levels vs. medium levels.  
+```{r}
+sx2 <- t.test(medium,low, paired = FALSE, var.equal = TRUE )
+```
+P value is ~`r round(sx2$p.value,4)`. So, we reject the null hypothesis and accept the alternative hypothesis.  
+  
+2.2. H0: There is no difference in teeth length beteen medium levels vs. high levels.  
+
+```{r}
+sx3 <- t.test(high, medium, paired = FALSE, var.equal = TRUE )
+```
+P value is ~`r round(sx3$p.value,4)`. We reject the null hypothesis and accept the alternative hypothesis.  
+
+**Hypothesis 3: There is not difference in the Dose levels of Vitamin C over Supp. type.**  
+```{r}
+attach(dat)
+subset1 <- dat[supp=="VC" & dose==0.5,1]
+subset2 <- dat[supp=="OJ" & dose==0.5,1]
+sx4 <- t.test(subset2, subset1, paired = FALSE, var.equal = TRUE )
+subset1 <- dat[supp=="VC" & dose==1,1]
+subset2 <- dat[supp=="OJ" & dose==1,1]
+sx5 <- t.test(subset2, subset1, paired = FALSE, var.equal = TRUE )
+subset1 <- dat[supp=="VC" & dose==2,1]
+subset2 <- dat[supp=="OJ" & dose==2,1]
+sx6 <- t.test(subset1, subset2, paired = FALSE, var.equal = TRUE )
+```
+
+3.1 Low levels Vitamin C  
+We will reject the H0. With low dose levels of Vitamin C, orange juice results in higher values of teeth length. P value = `r round(sx4$p.value,4)`.  
+
+3.2 Medium levels Vitamin C    
+We will reject the H0. With medium dose levels of Vitamin C, orange juice results in higher values of teeth length. P value ~ 0.  
+
+3.3 High levels Vitamin C  
+We cannot reject the null hypothesis for high levels. P value = `r sx6$p.value`.  
+  
+### Conclusions:  
+1. Higher dose levels of Vitamin C result in longer teeth.  
+
+2. Type of supplement of Vitamin C, matters. Orange juice results in higher values of teeth length. However, results are statistically significant only for low or medium dose levels of Vitamin C.  
+
+3. There are no differences between means from Orange juice or ascorbic acid for high Vitamin C levels. (This explains why we could not find statistically differences in our hypothesis1).  
+
+Supporting Appendix Material
+===============================================================================
+Load data
+```{r}
+data(ToothGrowth)
+dat <- ToothGrowth
+#help("ToothGrowth")
+str(ToothGrowth)
+```
+
+Quick look at the data
+```{r}
+head(dat)
+tail(dat)
+summary(dat)
+```
+
+Results statistics for Hypothesis Testing
+```{r}
+statistic # Hypothesis 1
+sx2 # Hypothesis 2: low levels vs. medium levels
+sx3 # Hypothesis 2: medium levels vs. high levels
+sx4 # Hypothesis 3: levels: low level over Supp Types
+sx5 # Hypothesis 3: levels: medium level over Supp Types
+sx6 # Hypothesis 3: levels: high level over Supp Types
+```
+
+EDA. Code for Boxplots  
+
+```{r eval=FALSE}
+boxplot(dat$len~dat$supp, col=c("grey60", "grey90"), ylab="Length of teeth", 
+        xlab="Supplement type", cex.lab = 0.8, cex.axis =0.7)
+  
+boxplot(dat$len~dat$dose, col=c("grey60", "grey90", "lightblue"), ylab="Length of teeth", xlab="Dose levels of Vitamin C",cex.lab = 0.8, cex.axis =0.7)
+  
+boxplot(dat$len~dat$dose*dat$supp, ylab="Length of teeth", 
+        xlab="Dose levels of Vitamin C over Supp. type", ylab="Length of teeth", 
+        col=rep(c("lightcyan2", "honeydew1","papayawhip"),2), las=1, cex.lab=0.8, cex.axis=0.7)
+```
+
+
+
+
