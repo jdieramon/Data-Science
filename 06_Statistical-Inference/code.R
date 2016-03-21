@@ -18,7 +18,7 @@ qbeta(0.5,2,1)
 
 ### Simulating averages and estimating standard error of the mean (standard deviations)
 
-## -- Example: normal distribution --
+## -- Example 1: normal distribution ----------------------------------------------------
 # Standard normals have variance 1; means of n;
 # normals(1) have standard deviation 1^2/sqrt(n) = 1/sqrt(n) 
 n <- 5
@@ -26,8 +26,25 @@ sim <- 3
 
 # We simulate 3 means of 5 standard normals
 matrix(rnorm(sim*n), sim)
-apply(matrix(rnorm(sim*n), sim),1, mean) #1=filas
+apply(matrix(rnorm(sim*n), sim),1, mean)   # 1=filas
 sd(apply(matrix(rnorm(sim*n), sim),1, mean))
 
 #check (sd): 
 1/sqrt(n)
+## Different result than the theoretical sd. It is because I have used few data in my simulation. 
+## Let's repeat the simulatoin using more data: We simulate 1000 means of 10 standard normals.
+sim <- 1000
+n <- 10
+
+matrix(rnorm(sim*n), sim)
+apply(matrix(rnorm(sim*n), sim),1, mean)
+hist(apply(matrix(rnorm(sim*n), sim),1, mean))
+sd(apply(matrix(rnorm(sim*n), sim),1, mean))
+
+#Check with the theoretical sd
+sd = 1 /sqrt(n)
+sd
+
+## -- Example 2: uniform distribution ----------------------------------------------------
+
+
