@@ -25,6 +25,7 @@ n <- 5
 sim <- 3
 
 # We simulate 3 means of 5 standard normals
+set.seed(2340)
 matrix(rnorm(sim*n), sim)
 apply(matrix(rnorm(sim*n), sim),1, mean)   # 1=filas
 sd(apply(matrix(rnorm(sim*n), sim),1, mean))
@@ -44,6 +45,24 @@ sd(apply(matrix(rnorm(sim*n), sim),1, mean))
 #Check with the theoretical sd
 sd = 1 /sqrt(n)
 sd
+
+# We can compare the distribution of our simulation data (large collection of averages of 10 normals)
+# with the normal distribution. 
+
+# Simulated data
+sim.data <- apply(matrix(rnorm(sim*n), sim),1, mean)
+hist(sim.data, breaks=n, probability = TRUE, col="lightblue", 
+     xlab="means", main="Simulation")
+
+# Normal distribution
+x = seq(min(sim.data), max(sim.data), length=100)
+lines(x, dnorm(x, mean = mean(sim.data), sd=1/sqrt(n)), col=2, lwd=2)
+
+## Also, we could compare the quantiles of the simulated data with the normal distribution. 
+#We can see how the distribution is approximately normal
+qqnorm(sim.data)
+qqline(sim.data, col=2, lwd=2)
+
 
 ## -- Example 2: uniform distribution ----------------------------------------------------
 
