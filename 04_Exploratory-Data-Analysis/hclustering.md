@@ -20,8 +20,8 @@ text(x + 0.05, y + 0.05, labels = as.character(1:12))
 * First, you need to calculate all the pair-wise distances. To Calculate distance 
 between all possible points:  
     ## dist()  
-    ## hclust()  
-
+    ## hclust()    
+  
 
 ```r
 dataFrame  <- data.frame(x=x, y=y)
@@ -31,6 +31,7 @@ plot(hClustering)
 ```
 
 ![](hclustering_files/figure-html/unnamed-chunk-2-1.png) 
+  
 It does not really tell you how many clusters there are. It depends on where you 
 set the threshold.
 
